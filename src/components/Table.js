@@ -6,26 +6,37 @@ class Table extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name:''
-    }
+      numRows: 0
+    };
+    this.addRow = this.addRow.bind(this);
   }
 
   addRow () {
-    alert('hola estoy andando');
+   this.setState({
+     numRows: this.state.numRows + 1
+   })
   }
 
 
   render() {
+    const rows = [];
+    for (let i = 0; i < this.state.numRows; i++) {
+      rows.push(<Row />)
+    }
     return (
       <div>
-        <div className="row">
-          <Row />
+        <table>
+          <tr>
+            <td><input type='text' value='titulo' /></td>
+            <td><input type='text' value='descripcion' /></td>
+          </tr>
+          <tr>
+            <td><Row /></td>
+          </tr>
+          {rows}
           <input type="button" value="+" onClick={this.addRow}/>
-        </div>
-        <div className="column">
-          <textarea></textarea>
+        </table>
           <input type="button" value="+"/>
-        </div>
       </div>          
     )
   }

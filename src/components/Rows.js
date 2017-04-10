@@ -4,7 +4,10 @@ class Row extends Component {
   render() {
     return (
     <div>
-      <input placeholder="insert 1"/>
+      <tr>
+        <td><input placeholder="insert 1"/></td>
+        <td><textarea></textarea></td>
+      </tr>
     </div>
     )
   }
