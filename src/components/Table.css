@@ -1,0 +1,7 @@
+.principal-table {
+    width:100%;
+}
+
+table, tr, td{
+    border:1px solid black
+}

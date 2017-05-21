@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import Row from './Rows';
+import './Table.css'
 
 class Table extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      numRows: 0
+      numRows: 1,
+      numColumns: 1,
     };
     this.addRow = this.addRow.bind(this);
   }
@@ -21,22 +23,19 @@ class Table extends Component {
   render() {
     const rows = [];
     for (let i = 0; i < this.state.numRows; i++) {
-      rows.push(<Row />)
+      rows.push(<Row numColumns={this.state.numColumns}/>)
     }
     return (
       <div>
-        <table>
+        <table className="principal-table">
           <tr>
-            <td><input type='text' value='titulo' /></td>
-            <td><input type='text' value='descripcion' /></td>
-          </tr>
-          <tr>
-            <td><Row /></td>
+            <th><input type='text' /></th>
+            <th><input type='text' value='descripcion' /></th>
+            <th><input type="button" value="+"/></th>
           </tr>
           {rows}
-          <input type="button" value="+" onClick={this.addRow}/>
+            <input type="button" value="+" onClick={this.addRow}/>
         </table>
-          <input type="button" value="+"/>
       </div>          
     )
   }

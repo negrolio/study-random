@@ -1,16 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Row extends Component {
-  render() {
-    return (
-    <div>
-      <tr>
-        <td><input placeholder="insert 1"/></td>
-        <td><textarea></textarea></td>
-      </tr>
-    </div>
+const Row = (props) => {
+  const columns = []
+  for (let i = 0; i < props.numColumns; i++) {
+    columns.push(
+      <div>
+        
+      </div>
     )
   }
+  return (
+    <tr>
+      {columns}
+    </tr>
+  )
 }
 
 export default Row;
