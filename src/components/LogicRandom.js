@@ -1,32 +1,80 @@
-import React from 'react';
+import React, { Component } from 'react';
 import shuffle from 'shuffle-array';
 
-const LogicRandom = (props) => {
+class LogicRandom extends Component {
   
-  const targetsArray = props.projects.rows.map((element, nativeIndex)=>{
-    return {title: element.title, nativeIndex}
-  });
-  const optionsArray = props.projects.rows.map((element, nativeIndex)=>{
-      return {title: element.description, nativeIndex}
-  });
+  constructor (props) {
+    super(props);
+    this.state = {
+      firstColumnName: this.props.projects.colums[0],
+      secondColumnName: this.props.projects.colums[1],
+      targetsArray: [],
+      optionsArray: [],
+      optionsButtons: [],
+      targetToShow:""
+    }
 
-  shuffle(targetsArray);
-  shuffle(optionsArray);
+    this.setTargetsArray = this.setTargetsArray.bind(this);
+    this.setTargetToShow = this.setTargetToShow.bind(this);
+    this.setOptionsArray = this.setOptionsArray.bind(this);
+    this.setOptionsButtons = this.setOptionsButtons.bind(this);
+    this.takeAColumnOfRow = this.takeAColumnOfRow.bind(this);
+    this.checkElection = this.checkElection.bind(this);
+  }
 
-  let target = targetsArray[0];
 
-  let buttons = [];
-  
-  const descriptionButtons = (description) => {
-    description.forEach(function(element) {
-      buttons.push(
-        <button onClick={()=>{checkElection(target,element)}}
-        >{element.title}</button>
-      )
+  componentWillMount () {
+    this.setTargetsArray();
+    this.setOptionsArray();
+  }
+
+  componentDidMount () {
+    shuffle(this.state.targetsArray);
+    shuffle(this.state.optionsArray);
+    this.setTargetToShow();
+    this.setOptionsButtons(this.state.optionsArray);
+  }
+
+  takeAColumnOfRow (row, column) {
+    return row.map((element, nativeIndex)=>{
+      return {title: element[column], nativeIndex}
+    });
+  }
+
+  setTargetsArray () {
+    const newTargetsArray = this.takeAColumnOfRow(this.props.projects.rows, this.state.firstColumnName);
+    this.setState ({
+      targetsArray: newTargetsArray
+    }) 
+  }
+
+  setOptionsArray () {
+    const options = this.takeAColumnOfRow(this.props.projects.rows, this.state.secondColumnName)
+    this.setState ({
+      optionsArray: options
     })
   }
 
-  function checkElection (currentTarget, election) {
+  setTargetToShow () {
+    this.setState ({
+      targetToShow: this.state.targetsArray[0]
+    })
+  }
+
+  setOptionsButtons (options) {
+    let newOptions = options.map((option) => {
+      return <button 
+              key={option.nativeIndex}
+              onClick={()=>{this.checkElection(this.state.targetToShow,option)}}>
+                {option.title}
+             </button>
+    });
+    this.setState ({
+      optionsButtons: newOptions
+    })
+  }
+
+  checkElection (currentTarget, election) {
     if (currentTarget.nativeIndex === election.nativeIndex) {
       console.log('si, es el indicado')
     } else {
@@ -34,14 +82,14 @@ const LogicRandom = (props) => {
     }
   }
   
-  descriptionButtons(optionsArray);
-  
-  return (
-    <div>
-      <h1>{target.title}</h1>
-      <div>{buttons}</div>
-    </div>
-  )
+  render () {
+    return (
+      <div>
+        <h1>{this.state.targetToShow.title}</h1>
+        <div>{this.state.optionsButtons}</div>
+      </div>
+    )
+  }
 }
 
 export default LogicRandom;
