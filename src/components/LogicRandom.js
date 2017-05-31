@@ -6,8 +6,8 @@ class LogicRandom extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      firstColumnName: this.props.projects.colums[0],
-      secondColumnName: this.props.projects.colums[1],
+      columnToGuess: this.props.projects.colums[0],
+      columnToOptions: this.props.projects.colums[1],
       targetsArray: [],
       optionsArray: [],
       optionsButtons: [],
@@ -35,6 +35,7 @@ class LogicRandom extends Component {
     this.setOptionsButtons(this.state.optionsArray);
   }
 
+  // take an element from column array and search that element like properties of the objects in row array
   takeAColumnOfRow (row, column) {
     return row.map((element, nativeIndex)=>{
       return {title: element[column], nativeIndex}
@@ -42,14 +43,15 @@ class LogicRandom extends Component {
   }
 
   setTargetsArray () {
-    const newTargetsArray = this.takeAColumnOfRow(this.props.projects.rows, this.state.firstColumnName);
+    const newTargetsArray = this.takeAColumnOfRow(this.props.projects.rows, this.state.columnToGuess);
+      console.log(newTargetsArray);
     this.setState ({
       targetsArray: newTargetsArray
     }) 
   }
 
   setOptionsArray () {
-    const options = this.takeAColumnOfRow(this.props.projects.rows, this.state.secondColumnName)
+    const options = this.takeAColumnOfRow(this.props.projects.rows, this.state.columnToOptions)
     this.setState ({
       optionsArray: options
     })
