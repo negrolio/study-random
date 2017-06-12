@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import shuffle from 'shuffle-array';
+import OptionsButtons from './OptionsButtons/index.js';
 
 class LogicRandom extends Component {
   
@@ -10,8 +11,7 @@ class LogicRandom extends Component {
       columnToOptions: this.props.projects.colums[1],
       targetsArray: [],
       optionsArray: [],
-      optionsButtons: [],
-      targetToShow:""
+      targetToShow: {}
     }
 
     this.setTargetsArray = this.setTargetsArray.bind(this);
@@ -32,16 +32,18 @@ class LogicRandom extends Component {
     shuffle(this.state.targetsArray);
     shuffle(this.state.optionsArray);
     this.setTargetToShow();
-    this.setOptionsButtons(this.state.optionsArray);
+   // this.setOptionsButtons(this.state.optionsArray);
   }
 
-  // take an element from column array and search that element like properties of the objects in row array
+  // take an element from columns array and search that element like a propertie in the objects of row array
+  // return an array of objects with title, and the index where it come from
   takeAColumnOfRow (row, column) {
     return row.map((element, nativeIndex)=>{
       return {title: element[column], nativeIndex}
     });
   }
 
+  // select from the column array, what are going to be the targets
   setTargetsArray () {
     const newTargetsArray = this.takeAColumnOfRow(this.props.projects.rows, this.state.columnToGuess);
       console.log(newTargetsArray);
@@ -50,6 +52,7 @@ class LogicRandom extends Component {
     }) 
   }
 
+  // select from the column array, what are going to be the options  
   setOptionsArray () {
     const options = this.takeAColumnOfRow(this.props.projects.rows, this.state.columnToOptions)
     this.setState ({
@@ -57,27 +60,15 @@ class LogicRandom extends Component {
     })
   }
 
+  // take the first from the targetsArray
   setTargetToShow () {
     this.setState ({
       targetToShow: this.state.targetsArray[0]
     })
   }
 
-  setOptionsButtons (options) {
-    let newOptions = options.map((option) => {
-      return <button 
-              key={option.nativeIndex}
-              onClick={()=>{this.checkElection(this.state.targetToShow,option)}}>
-                {option.title}
-             </button>
-    });
-    this.setState ({
-      optionsButtons: newOptions
-    })
-  }
-
-  checkElection (currentTarget, election) {
-    if (currentTarget.nativeIndex === election.nativeIndex) {
+  checkElection (election) {
+    if (this.state.targetToShow.nativeIndex === parseInt(election.target.id, 10)) {
       console.log('si, es el indicado')
     } else {
       console.log('no che, no es ese')
@@ -88,7 +79,7 @@ class LogicRandom extends Component {
     return (
       <div>
         <h1>{this.state.targetToShow.title}</h1>
-        <div>{this.state.optionsButtons}</div>
+        <OptionsButtons onClick={this.checkElection} options={this.state.optionsArray} />
       </div>
     )
   }
