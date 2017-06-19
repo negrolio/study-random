@@ -11,15 +11,14 @@ class LogicRandom extends Component {
       columnToOptions: this.props.projects.colums[1],
       targetsArray: [],
       optionsArray: [],
-      targetToShow: {}
+      currentTarget: {}
     }
 
-    this.setTargetsArray = this.setTargetsArray.bind(this);
-    this.setTargetToShow = this.setTargetToShow.bind(this);
-    this.setOptionsArray = this.setOptionsArray.bind(this);
-    this.setOptionsButtons = this.setOptionsButtons.bind(this);
+    this.setTargetsArray  = this.setTargetsArray.bind(this);
+    this.setCurrentTarget  = this.setCurrentTarget.bind(this);
+    this.setOptionsArray  = this.setOptionsArray.bind(this);
     this.takeAColumnOfRow = this.takeAColumnOfRow.bind(this);
-    this.checkElection = this.checkElection.bind(this);
+    this.checkElection    = this.checkElection.bind(this);
   }
 
 
@@ -31,8 +30,7 @@ class LogicRandom extends Component {
   componentDidMount () {
     shuffle(this.state.targetsArray);
     shuffle(this.state.optionsArray);
-    this.setTargetToShow();
-   // this.setOptionsButtons(this.state.optionsArray);
+    this.setCurrentTarget();
   }
 
   // take an element from columns array and search that element like a propertie in the objects of row array
@@ -46,7 +44,6 @@ class LogicRandom extends Component {
   // select from the column array, what are going to be the targets
   setTargetsArray () {
     const newTargetsArray = this.takeAColumnOfRow(this.props.projects.rows, this.state.columnToGuess);
-      console.log(newTargetsArray);
     this.setState ({
       targetsArray: newTargetsArray
     }) 
@@ -61,14 +58,14 @@ class LogicRandom extends Component {
   }
 
   // take the first from the targetsArray
-  setTargetToShow () {
+  setCurrentTarget () {
     this.setState ({
-      targetToShow: this.state.targetsArray[0]
+      currentTarget: this.state.targetsArray[0]
     })
   }
 
   checkElection (election) {
-    if (this.state.targetToShow.nativeIndex === parseInt(election.target.id, 10)) {
+    if (this.state.currentTarget.nativeIndex === parseInt(election.target.id, 10)) {
       console.log('si, es el indicado')
     } else {
       console.log('no che, no es ese')
@@ -78,7 +75,7 @@ class LogicRandom extends Component {
   render () {
     return (
       <div>
-        <h1>{this.state.targetToShow.title}</h1>
+        <h1>{this.state.currentTarget.title}</h1>
         <OptionsButtons onClick={this.checkElection} options={this.state.optionsArray} />
       </div>
     )
