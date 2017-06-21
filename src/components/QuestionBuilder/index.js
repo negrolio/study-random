@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import shuffle from 'shuffle-array';
-import OptionsButtons from './OptionsButtons/index.js';
+import OptionsButtons from './../OptionsButtons/index.js';
 
-class LogicRandom extends Component {
+class QuestionBuilder extends Component {
   
   constructor (props) {
     super(props);
@@ -82,4 +82,4 @@ class LogicRandom extends Component {
   }
 }
 
-export default LogicRandom;
+export default QuestionBuilder;

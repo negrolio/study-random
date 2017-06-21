@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import LogicRandom from './components/LogicRandom';
+import QuestionBuilder from './components/QuestionBuilder/index.js';
 
 class App extends Component {
   render() {
@@ -25,7 +25,7 @@ class App extends Component {
           <h2>{project.name}</h2>
         </div>
         {/*<Table />    */}
-        <LogicRandom projects={project} />
+        <QuestionBuilder projects={project} />
       </div>
     );
   }
