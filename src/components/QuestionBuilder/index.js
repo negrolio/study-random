@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import shuffle from 'shuffle-array';
-import OptionsButtons from './../OptionsButtons/index.js';
+import OptionsButtons from './../OptionsButtons/index';
+import TargetDisplay from './../TargetDisplay/index';
 
 class QuestionBuilder extends Component {
   
@@ -67,6 +68,7 @@ class QuestionBuilder extends Component {
   checkElection (election) {
     if (this.state.currentTarget.nativeIndex === parseInt(election.target.id, 10)) {
       console.log('si, es el indicado')
+      election.target.style.backgroundColor = 'green'
     } else {
       console.log('no che, no es ese')
     }
@@ -75,7 +77,7 @@ class QuestionBuilder extends Component {
   render () {
     return (
       <div>
-        <h1>{this.state.currentTarget.title}</h1>
+        <TargetDisplay label={this.state.currentTarget.title} />
         <OptionsButtons onClick={this.checkElection} options={this.state.optionsArray} />
       </div>
     )

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import Button from './../Button/index';
 
 class OptionsButtons extends Component {
   
-
   renderButtons() {
     const { options, onClick } = this.props;
     
@@ -13,9 +13,11 @@ class OptionsButtons extends Component {
 
     const arrayButtons = options.map((option) => {
       return (
-        <button onClick={eventOnClick} id={option.nativeIndex} key={option.nativeIndex}>
-          {option.title}
-        </button>
+        <Button 
+          eventOnClick={eventOnClick}
+          option={option}
+          key={option.nativeIndex}
+          label={option.title} />
       )
     });
     return arrayButtons;

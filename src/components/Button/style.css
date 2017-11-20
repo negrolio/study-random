@@ -1,0 +1,21 @@
+.btn {
+    margin: 9px;
+    padding: 9px;
+    border-radius: 5px;
+    background-color: #337ab7;
+    color: #f5f1f1;
+    border-color: rgba(51, 122, 183, 0.45);
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.btn:hover:not([disabled]) {
+    background-color: #13355d;
+}
+
+.btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    background-color: #c75151;
+}
