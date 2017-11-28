@@ -5,17 +5,25 @@
     background-color: #337ab7;
     color: #f5f1f1;
     border-color: rgba(51, 122, 183, 0.45);
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
+    -webkit-transition-duration: 0.5s; /* Safari */
+    transition-duration: 0.5s;
     cursor: pointer;
 }
 
 .btn:hover:not([disabled]) {
     background-color: #13355d;
+    transform: scale(1.03);
 }
 
-.btn:disabled {
+.btn:disabled:not(.btn-well) {
     cursor: not-allowed;
     opacity: 0.6;
     background-color: #c75151;
+    transform: scale(1.03);
+}
+
+.btn-well {
+    background-color: green;
+    opacity: 0.6;
+    transform: scale(1.03);    
 }

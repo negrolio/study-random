@@ -3,15 +3,14 @@ import buttonStyle from './style.css';
 
 const Button = (props) => {
 
-    const { eventOnClick, option, label} = props;
-
+    const { eventOnClick, id, label, className, style, disabled} = props;
     return (
         <button 
         onClick={eventOnClick} 
-        id={option.nativeIndex}
-        className={props.className || 'btn'}
-        style={props.style || buttonStyle} 
-        disabled={props.disabled} >
+        id={id}
+        className={className ? `${className} btn`: 'btn'}
+        style={style || buttonStyle} 
+        disabled={disabled} >
             {label}
         </button>
     )

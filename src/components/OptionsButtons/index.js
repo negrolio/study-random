@@ -1,23 +1,27 @@
 import React, { Component } from 'react';
 import Button from './../Button/index';
+import './style.css'
 
 class OptionsButtons extends Component {
   
   renderButtons() {
-    const { options, onClick } = this.props;
+    const { options, onClick, className } = this.props;
     
     const eventOnClick = (e) => {
       onClick(e);
-      e.target.disabled = true;
     }
 
     const arrayButtons = options.map((option) => {
+      const { nativeIndex, title, disabled, selectedWell } = option;
+
       return (
         <Button 
           eventOnClick={eventOnClick}
-          option={option}
+          id={option.nativeIndex}
           key={option.nativeIndex}
-          label={option.title} />
+          label={option.title} 
+          className={selectedWell && 'btn-well'}
+          disabled={option.disabled} />
       )
     });
     return arrayButtons;
@@ -25,7 +29,7 @@ class OptionsButtons extends Component {
 
   render() {
     return (
-      <div>
+      <div className={'container-answers'}>
         {this.renderButtons()}
       </div>
     )

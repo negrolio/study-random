@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import shuffle from 'shuffle-array';
 import OptionsButtons from './../OptionsButtons/index';
 import TargetDisplay from './../TargetDisplay/index';
+import NextTargetButton from './../NextTargetButton/index';
 
 class QuestionBuilder extends Component {
   
@@ -12,14 +13,16 @@ class QuestionBuilder extends Component {
       columnToOptions: this.props.projects.colums[1],
       targetsArray: [],
       optionsArray: [],
-      currentTarget: {}
+      currentTarget: {},
+      showNextTargetButton: false
     }
 
     this.setTargetsArray  = this.setTargetsArray.bind(this);
-    this.setCurrentTarget  = this.setCurrentTarget.bind(this);
+    this.setCurrentTarget = this.setCurrentTarget.bind(this);
     this.setOptionsArray  = this.setOptionsArray.bind(this);
     this.takeAColumnOfRow = this.takeAColumnOfRow.bind(this);
     this.checkElection    = this.checkElection.bind(this);
+    this.nextTarget       = this.nextTarget.bind(this);
   }
 
 
@@ -35,10 +38,13 @@ class QuestionBuilder extends Component {
   }
 
   // take an element from columns array and search that element like a propertie in the objects of row array
-  // return an array of objects with title, and the index where it come from
+  // return an array of objects with title, the index where it come from, if have to be disabled or if was correctly selected
   takeAColumnOfRow (row, column) {
     return row.map((element, nativeIndex)=>{
-      return {title: element[column], nativeIndex}
+      return {title: element[column],
+              nativeIndex,
+              disabled: false,
+              selectedWell: false}
     });
   }
 
@@ -62,23 +68,67 @@ class QuestionBuilder extends Component {
   setCurrentTarget () {
     this.setState ({
       currentTarget: this.state.targetsArray[0]
-    })
+    });
   }
 
   checkElection (election) {
-    if (this.state.currentTarget.nativeIndex === parseInt(election.target.id, 10)) {
-      console.log('si, es el indicado')
-      election.target.style.backgroundColor = 'green'
-    } else {
-      console.log('no che, no es ese')
+    const { currentTarget, optionsArray, targetsArray } = this.state;
+    const electionId = parseInt(election.target.id, 10);
+
+    function returnEditedOptionsArray (selectedOptionId, correctSelection) {
+      return optionsArray.map((e) => {
+        e.disabled = e.disabled || correctSelection;
+        if (e.nativeIndex === selectedOptionId) {
+          e.selectedWell = correctSelection;
+          e.disabled = true;
+        }
+        return e;
+      });
     }
+
+    let newOptionsArray;
+    // check if the clicked option matche with the target
+    if (currentTarget.nativeIndex === electionId) {
+      // avoid showing the 'next' button if only one objective remains to guess
+      targetsArray.length !== 1 && this.setState({
+        showNextTargetButton: true
+      });
+      // put all options in disabled, and the correct matche in true
+      newOptionsArray = returnEditedOptionsArray(electionId, true);
+    } else {
+      // just put in disabled the wrong election
+      newOptionsArray = returnEditedOptionsArray(electionId, false);
+    }
+
+    this.setState({
+      optionsArray: newOptionsArray
+    })
+  }
+
+  nextTarget () {
+    const { targetsArray, optionsArray } = this.state;
+    // remove first element of the targetsArray
+    targetsArray.shift();
+    this.setCurrentTarget();
+    // reset the options properties to the next guess
+    const newOptionsArray = optionsArray.map((e) => {
+      e.disabled = false;
+      e.selectedWell = false;
+      return e;
+    });
+    this.setState({
+      optionsArray: shuffle(newOptionsArray),
+      showNextTargetButton: false
+    });
   }
   
   render () {
+    const { currentTarget, optionsArray, showNextTargetButton } = this.state
     return (
       <div>
-        <TargetDisplay label={this.state.currentTarget.title} />
-        <OptionsButtons onClick={this.checkElection} options={this.state.optionsArray} />
+        <TargetDisplay label={currentTarget.title} />
+        <OptionsButtons onClick={this.checkElection} options={optionsArray} />
+        {showNextTargetButton && <NextTargetButton onClick={this.nextTarget} />}
       </div>
     )
   }
