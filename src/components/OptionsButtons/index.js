@@ -3,23 +3,23 @@ import Button from './../Button/index';
 import './style.css'
 
 class OptionsButtons extends Component {
-  
+
   renderButtons() {
     const { options, onClick, className } = this.props;
-    
-    const eventOnClick = (e) => {
-      onClick(e);
-    }
+
+    // const eventOnClick = (e) => {
+    //   onClick(e);
+    // }
 
     const arrayButtons = options.map((option) => {
       const { nativeIndex, title, disabled, selectedWell } = option;
 
       return (
-        <Button 
-          eventOnClick={eventOnClick}
+        <Button
+          eventOnClick={onClick}
           id={option.nativeIndex}
           key={option.nativeIndex}
-          label={option.title} 
+          label={option.title}
           className={selectedWell && 'btn-well'}
           disabled={option.disabled} />
       )

@@ -1,15 +1,19 @@
 import React from 'react';
 import buttonStyle from './style.css';
 
-const Button = (props) => {
+const Button = ({ eventOnClick, id, label, className, style, disabled}) => {
 
-    const { eventOnClick, id, label, className, style, disabled} = props;
+    // const  = props;
+
+    const onClick = () => {
+        eventOnClick(id)
+    }
+
     return (
-        <button 
-        onClick={eventOnClick} 
-        id={id}
+        <button
+        onClick={onClick}
         className={className ? `${className} btn`: 'btn'}
-        style={style || buttonStyle} 
+        style={style || buttonStyle}
         disabled={disabled} >
             {label}
         </button>

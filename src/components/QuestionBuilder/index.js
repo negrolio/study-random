@@ -5,7 +5,7 @@ import TargetDisplay from './../TargetDisplay/index';
 import NextTargetButton from './../NextTargetButton/index';
 
 class QuestionBuilder extends Component {
-  
+
   constructor (props) {
     super(props);
     this.state = {
@@ -53,10 +53,10 @@ class QuestionBuilder extends Component {
     const newTargetsArray = this.takeAColumnOfRow(this.props.projects.rows, this.state.columnToGuess);
     this.setState ({
       targetsArray: newTargetsArray
-    }) 
+    })
   }
 
-  // select from the column array, what are going to be the options  
+  // select from the column array, what are going to be the options
   setOptionsArray () {
     const options = this.takeAColumnOfRow(this.props.projects.rows, this.state.columnToOptions)
     this.setState ({
@@ -71,18 +71,25 @@ class QuestionBuilder extends Component {
     });
   }
 
-  checkElection (election) {
+  checkElection (optionId) {
     const { currentTarget, optionsArray, targetsArray } = this.state;
-    const electionId = parseInt(election.target.id, 10);
+    const electionId = parseInt(optionId, 10);
 
     function returnEditedOptionsArray (selectedOptionId, correctSelection) {
-      return optionsArray.map((e) => {
-        e.disabled = e.disabled || correctSelection;
-        if (e.nativeIndex === selectedOptionId) {
-          e.selectedWell = correctSelection;
-          e.disabled = true;
+      return optionsArray.map((option) => {
+        const thisOptionClicked = newOption.nativeIndex === selectedOptionId
+        return {
+          ...option,
+          disabled: thisOptionClicked ? true : newOption.disabled || correctSelection,
+          selectedWell: thisOptionClicked ? correctSelection : option.selectedWell
         }
-        return e;
+        // const newOption = {...option}
+        // newOption.disabled = newOption.disabled || correctSelection;
+        // if (newOption.nativeIndex === selectedOptionId) {
+        //   newOption.selectedWell = correctSelection;
+        //   newOption.disabled = true;
+        // }
+        // return newOption
       });
     }
 
@@ -121,7 +128,7 @@ class QuestionBuilder extends Component {
       showNextTargetButton: false
     });
   }
-  
+
   render () {
     const { currentTarget, optionsArray, showNextTargetButton } = this.state
     return (
