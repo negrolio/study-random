@@ -9,82 +9,128 @@ class Table extends Component {
     this.state = {
       numRows: 1,
       numColumns: 2,
+      columns: [],
+      rows: [],
+      values: {rows:{}}
     };
-
-    this.addRow = this.addRow.bind(this);
-    this.removeARow = this.removeARow.bind(this);
-    this.addColumn = this.addColumn.bind(this);
-    this.removeAColumn = this.removeAColumn.bind(this);
-    this.renderColumns = this.renderColumns.bind(this);
-    this.renderRows = this.renderRows.bind(this);
   }
 
-  addRow () {
-   this.setState({
-     numRows: this.state.numRows + 1
-   })
-  }
-  removeARow () {
-    this.setState({
-      numRows: this.state.numRows - 1
-    })
+  componentDidMount () {
+    this.setColumns(this.state.numColumns);
+    this.setRows(this.state.numRows);
   }
 
-  addColumn () {
-    this.setState({
-      numColumns: this.state.numColumns + 1
-    })
-  }
-  removeAColumn () {
-    this.setState({
-      numColumns: this.state.numColumns - 1
-    })
+  componentDidUpdate(prevProps, prevState) {
+    // if the number of columns change, we need to render again the rows
+    this.state.numColumns !== prevState.numColumns && this.setRows(this.state.numRows)
   }
 
-  renderColumns () {
+  addRow = () => {
+   this.setRows(this.state.numRows + 1);
+  }
+  removeARow = () => {
+   this.setRows(this.state.numRows - 1);
+  }
+
+  addColumn = () => {
+    this.setColumns(this.state.numColumns + 1);
+  }
+
+  removeAColumn = () => {
+   this.setColumns(this.state.numColumns - 1)
+  }
+
+  setValueOfInputs = (event, rowId) => {
+    event.persist()
+    rowId || rowId === 0 ? 
+    this.setState((prevState) => ({
+      values: {
+        ...prevState.values,
+        rows: {
+          ...prevState.values.rows,
+          [rowId]: {
+            ...prevState.values.rows[rowId],
+            [event.target.id]: event.target.value
+          }
+        }
+      }
+    })) :
+    this.setState((prevState) => ({
+      values: {
+        ...prevState.values,
+        columns: {
+          ...prevState.values.columns,
+          [event.target.id]: event.target.value
+        }
+      }
+    }))
+  }
+
+  setColumns = (quantyOfColums) => {
     const columns = [];
-    for (let i = 0; i < this.state.numColumns; i++) {
-      columns.push(<th key={i}><input type='text' size={30} /></th>)
+    for (let i = 0; i < quantyOfColums; i++) {
+      columns.push(
+      <th key={i}>
+        <input
+        type='text'
+        size={30}
+        id={`colum${i}`}
+        onChange={this.setValueOfInputs}
+        // value={this.state.values && `${this.state.values.colum}${i}`}
+        />
+      </th>)
     }
-    return columns;
+    this.setState({
+      numColumns: quantyOfColums,
+      columns: columns
+    });
   }
 
-  renderRows () {
+  setRows = (quantyOfRows) => {
     const rows = [];
-    for (let i = 0; i < this.state.numRows; i++) {
-      rows.push(<Row key={i} numColumns={this.state.numColumns}/>)
+    for (let i = 0; i < quantyOfRows; i++) {
+      rows.push(<Row key={i} id={i} numColumns={this.state.numColumns} eventOnChange={this.setValueOfInputs} />)
     }
-    return rows;
+    this.setState({
+      numRows: quantyOfRows,
+      rows: rows
+    })
+  }
+
+  buttonsToAddAndRemove = (add, remove, conditional) => {
+    return (
+      <div>
+        <input type="button" value="+" onClick={add} />
+      {conditional &&
+        <input type="button" value="-" onClick={remove} />
+      }
+      </div>
+    )
   }
 
   render() {
-    const { numColumns, numRows } = this.state;
+    console.log(this.state)
+    const { numColumns, numRows, columns, rows } = this.state;
     return (
       <div>
         <table className="principal-table">
           <thead>
             <tr>
-              {this.renderColumns()}
+              {columns}
               <th>
-                <input type="button" value="+" onClick={this.addColumn} />
-                {numColumns > 2 &&
-                  <input type="button" value="-" onClick={this.removeAColumn} />
-                }
+                {this.buttonsToAddAndRemove(this.addColumn, this.removeAColumn, numColumns > 2)}
               </th>
             </tr>
           </thead>
 
           <tbody>
-            {this.renderRows()}
+            {rows}
           </tbody>
 
           <tfoot>
             <tr>
               <td>
-                {numRows > 1 &&
-                  <input type="button" value="-" onClick={this.removeARow}/>  
-                }
-                <input type="button" value="+" onClick={this.addRow}/>
+                {this.buttonsToAddAndRemove(this.addRow, this.removeARow, numRows > 1)}
               </td>
             </tr>
           </tfoot>

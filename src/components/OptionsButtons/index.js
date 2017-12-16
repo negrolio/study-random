@@ -7,21 +7,17 @@ class OptionsButtons extends Component {
   renderButtons() {
     const { options, onClick, className } = this.props;
 
-    // const eventOnClick = (e) => {
-    //   onClick(e);
-    // }
-
     const arrayButtons = options.map((option) => {
       const { nativeIndex, title, disabled, selectedWell } = option;
 
       return (
         <Button
           eventOnClick={onClick}
-          id={option.nativeIndex}
-          key={option.nativeIndex}
-          label={option.title}
+          id={nativeIndex}
+          key={nativeIndex}
+          label={title}
           className={selectedWell && 'btn-well'}
-          disabled={option.disabled} />
+          disabled={disabled} />
       )
     });
     return arrayButtons;
