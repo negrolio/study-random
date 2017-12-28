@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Row from './Rows';
-import './Table.css'
+import Button from './Button/index';
+import './Table.css';
 
 class Table extends Component {
 
@@ -42,6 +43,8 @@ class Table extends Component {
 
   setValueOfInputs = (event, rowId) => {
     event.persist()
+    // if the input comes from a row, the Row component will pass the event and the row id like a second parameter,
+    // if come from a column, the method setColumn only will pass the event
     rowId || rowId === 0 ? 
     this.setState((prevState) => ({
       values: {
@@ -108,8 +111,11 @@ class Table extends Component {
     )
   }
 
+  saveValuesInAppState = () => {
+    this.props.setValues(this.state.values)
+  }
+
   render() {
-    console.log(this.state)
     const { numColumns, numRows, columns, rows } = this.state;
     return (
       <div>
@@ -135,7 +141,8 @@ class Table extends Component {
             </tr>
           </tfoot>
         </table>
-      </div>          
+        <Button label={'Play this project'} eventOnClick={this.saveValuesInAppState} />
+      </div>
     )
   }
 }
