@@ -115,6 +115,7 @@ class QuestionBuilder extends Component {
     });
     this.setState({
       optionsArray: shuffle(newOptionsArray),
+      targetsArray: newTargetsArray,
       showNextTargetButton: false,
       currentTarget: newTargetsArray[0]
     });

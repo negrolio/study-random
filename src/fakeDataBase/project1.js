@@ -1,14 +1,3 @@
-const project = {
-    name:"project1",
-    colums: ["title", "description", "otherThings"],
-    rows: [
-        {title:"tricoma", description: "una cosa rara que hace cosas raras", otherThings: "suele ser raros" },
-        {title:"clasismo", description: "a veces vuela mucho", otherThings: "nada raro" },
-        {title:"estela", description: "persona loca", otherThings: "hace peinados nuevos" },
-        {title:"computadoris", description: "numeros de numeros", otherThings: "tu culo" },
-        {title:"kilometraje", description: "hay ay aya", otherThings: "sale el viaje" }        
-    ]
-}
 
 const project2 = {
     name:"project1",

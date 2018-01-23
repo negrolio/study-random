@@ -3,8 +3,6 @@ import buttonStyle from './style.css';
 
 const Button = ({ eventOnClick, id, label, className, style, disabled}) => {
 
-    // const  = props;
-
     const onClick = () => {
         eventOnClick(id)
     }

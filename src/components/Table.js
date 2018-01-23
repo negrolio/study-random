@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Row from './Rows';
 import Button from './Button/index';
 import './Table.css';
+import NormalizeDataToPlay from './NormalizeDataToPlay/index';
 
 class Table extends Component {
 
@@ -112,7 +113,8 @@ class Table extends Component {
   }
 
   saveValuesInAppState = () => {
-    this.props.setValues(this.state.values)
+    const newProject = NormalizeDataToPlay(this.state.values)
+    this.props.setValues(newProject);
   }
 
   render() {

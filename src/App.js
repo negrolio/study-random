@@ -4,7 +4,6 @@ import QuestionBuilder from './components/QuestionBuilder/index.js';
 import project from './fakeDataBase/project1';
 import Table from './components/Table';
 import Button from './components/Button/index';
-import ConstructorProjectHOC from './components/ConstructorProjectHOC/index';
 
 class App extends Component {
   constructor (props) {
@@ -32,8 +31,7 @@ class App extends Component {
     }))
   }
   render() {
-    const { showConstructor, showPlay, tableValues } = this.state;
-    const Play = ConstructorProjectHOC(QuestionBuilder, tableValues)
+    const { showConstructor, showPlay } = this.state;
     return (
       <div className="App">
         <div className="wrapper">
@@ -46,7 +44,7 @@ class App extends Component {
           </div>
           <div className="content">
             {showConstructor && <Table setValues={this.setTableValues} />}
-            {showPlay && <Play />}
+            {showPlay && <QuestionBuilder projects={this.state.tableValues.project} />}
           </div>
           <div className="footer"></div>
         </div>

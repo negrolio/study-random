@@ -5,7 +5,7 @@ import './style.css'
 class OptionsButtons extends Component {
 
   renderButtons() {
-    const { options, onClick, className } = this.props;
+    const { options, onClick } = this.props;
 
     const arrayButtons = options.map((option) => {
       const { nativeIndex, title, disabled, selectedWell } = option;
