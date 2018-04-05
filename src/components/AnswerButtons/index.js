@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Button from './../Button/index';
 import './style.css'
 
-class OptionsButtons extends Component {
+class AnswerButtons extends Component {
 
   renderButtons() {
     const { options, onClick } = this.props;
@@ -32,4 +32,4 @@ class OptionsButtons extends Component {
   }
 }
 
-export default OptionsButtons;
+export default AnswerButtons;

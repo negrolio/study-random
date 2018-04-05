@@ -20,7 +20,9 @@ function NormalizeDataToPlay (rowsAndColumns) {
         project: {
             name:"project1",
             colums: columns,
-            rows: rows
+            rows: rows,
+            columnToTarget: 0,
+            columnToOptions: 1
         }
     }
 }

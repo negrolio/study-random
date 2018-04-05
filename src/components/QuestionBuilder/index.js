@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import shuffle from 'shuffle-array';
-import OptionsButtons from './../OptionsButtons/index';
+import AnswerButtons from './../AnswerButtons/index';
 import TargetDisplay from './../TargetDisplay/index';
 import NextTargetButton from './../NextTargetButton/index';
 
@@ -9,8 +9,8 @@ class QuestionBuilder extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      columnToGuess: this.props.projects.colums[0],
-      columnToOptions: this.props.projects.colums[1],
+      columnToGuess: this.props.projects.colums[this.props.projects.columnToTarget],
+      columnToOptions: this.props.projects.colums[this.props.projects.columnToOptions],
       targetsArray: [],
       optionsArray: [],
       currentTarget: {},
@@ -122,11 +122,12 @@ class QuestionBuilder extends Component {
   }
 
   render () {
+    console.log(this.state.targetsArray)
     const { currentTarget, optionsArray, showNextTargetButton } = this.state
     return (
       <div>
         <TargetDisplay label={currentTarget.title} />
-        <OptionsButtons onClick={this.checkElection} options={optionsArray} />
+        <AnswerButtons onClick={this.checkElection} options={optionsArray} />
         {showNextTargetButton && <NextTargetButton onClick={this.nextTarget} />}
       </div>
     )

@@ -3,6 +3,7 @@ import Row from './Rows';
 import Button from './Button/index';
 import './Table.css';
 import NormalizeDataToPlay from './NormalizeDataToPlay/index';
+import AnswerButtons from './AnswerButtons/index';
 
 class Table extends Component {
 
@@ -64,7 +65,10 @@ class Table extends Component {
         ...prevState.values,
         columns: {
           ...prevState.values.columns,
-          [event.target.id]: event.target.value
+          [event.target.id]: {
+            title: event.target.value,
+            nativeIndex: +event.target.id
+          }
         }
       }
     }))
@@ -78,7 +82,7 @@ class Table extends Component {
         <input
         type='text'
         size={30}
-        id={`colum${i}`}
+        id={i}
         onChange={this.setValueOfInputs}
         // value={this.state.values && `${this.state.values.colum}${i}`}
         />
@@ -112,9 +116,25 @@ class Table extends Component {
     )
   }
 
-  saveValuesInAppState = () => {
+  saveValuesInAppStateAndPlay = () => {
     const newProject = NormalizeDataToPlay(this.state.values)
     this.props.setValues(newProject);
+    this.props.play();
+  }
+
+  chooseTargetColumn = () => {
+    console.log(this.state.values)
+    const newProject = NormalizeDataToPlay(this.state.values)
+    console.log(newProject.project)
+    return (
+      <div><AnswerButtons options={newProject.project.colums} /></div>
+    )
+  }
+
+  showElectionOfTarget = () => {
+    this.setState((prevState)=>({
+      showElectionOfTarget: !prevState.showElectionOfTarget
+    }))
   }
 
   render() {
@@ -143,7 +163,8 @@ class Table extends Component {
             </tr>
           </tfoot>
         </table>
-        <Button label={'Play this project'} eventOnClick={this.saveValuesInAppState} />
+        <Button label={'Play this project'} eventOnClick={this.showElectionOfTarget} />
+        {this.state.showElectionOfTarget && this.chooseTargetColumn()}
       </div>
     )
   }
