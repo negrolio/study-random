@@ -112,9 +112,10 @@ class Table extends Component {
     )
   }
 
-  saveValuesInAppState = () => {
+  saveValuesInAppStateAndPlay = () => {
     const newProject = NormalizeDataToPlay(this.state.values)
     this.props.setValues(newProject);
+    this.props.play();
   }
 
   render() {
@@ -143,7 +144,7 @@ class Table extends Component {
             </tr>
           </tfoot>
         </table>
-        <Button label={'Play this project'} eventOnClick={this.saveValuesInAppState} />
+        <Button label={'Play this project'} eventOnClick={this.saveValuesInAppStateAndPlay} />
       </div>
     )
   }

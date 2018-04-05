@@ -40,10 +40,10 @@ class App extends Component {
           </div>
           <div className="sidebar">
             {!showConstructor && <Button label={'New Project'} eventOnClick={this.showConstructor} />}
-            {!showPlay && <Button label={'Play'} eventOnClick={this.showPlay} />}
+            {/* {!showPlay && <Button label={'Play'} eventOnClick={this.showPlay} />} */}
           </div>
           <div className="content">
-            {showConstructor && <Table setValues={this.setTableValues} />}
+            {showConstructor && <Table setValues={this.setTableValues} play={this.showPlay} />}
             {showPlay && <QuestionBuilder projects={this.state.tableValues.project} />}
           </div>
           <div className="footer"></div>
