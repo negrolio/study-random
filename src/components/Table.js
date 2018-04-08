@@ -78,7 +78,7 @@ class Table extends Component {
         <input
         type='text'
         size={30}
-        id={`colum${i}`}
+        id={i}
         onChange={this.setValueOfInputs}
         // value={this.state.values && `${this.state.values.colum}${i}`}
         />
@@ -112,10 +112,32 @@ class Table extends Component {
     )
   }
 
-  saveValuesInAppStateAndPlay = () => {
-    const newProject = NormalizeDataToPlay(this.state.values)
+  displayChooseTargetButton = () => {
+    const { columns } = this.state.values;
+    let opstionsTargetsArray = [];
+    for (const position in columns) {
+      const element = columns[position];
+      opstionsTargetsArray.push(
+        <Button label={element} eventOnClick={this.saveValuesInAppStateAndPlay.bind(this, position)} key={position} />
+      )
+    }
+    return opstionsTargetsArray;
+  }
+
+  saveValuesInAppStateAndPlay = (selectedTarget) => {
+    let newProject = NormalizeDataToPlay(this.state.values);
+    newProject.project = {
+      ...newProject.project,
+      columnToTarget: +selectedTarget
+    }
     this.props.setValues(newProject);
     this.props.play();
+  }
+
+  showElectionOfTarget = () => {
+    this.setState((prevState)=>({
+      showElectionOfTarget: !prevState.showElectionOfTarget
+    }))
   }
 
   render() {
@@ -144,7 +166,8 @@ class Table extends Component {
             </tr>
           </tfoot>
         </table>
-        <Button label={'Play this project'} eventOnClick={this.saveValuesInAppStateAndPlay} />
+        {this.state.showElectionOfTarget || <Button label={'Play this project'} eventOnClick={this.showElectionOfTarget} />}
+        {this.state.showElectionOfTarget && this.displayChooseTargetButton()}
       </div>
     )
   }

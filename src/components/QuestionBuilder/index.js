@@ -9,7 +9,7 @@ class QuestionBuilder extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      columnToGuess: this.props.projects.colums[0],
+      columnToGuess: this.props.projects.colums[this.props.projects.columnToTarget],
       columnToOptions: this.props.projects.colums[1],
       targetsArray: [],
       optionsArray: [],
